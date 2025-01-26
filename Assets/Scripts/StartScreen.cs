@@ -43,13 +43,44 @@ namespace Donutask.Wordfall
             startGame.Invoke();
         }
 
+
         public void OpenHelp()
         {
-            SceneManager.LoadSceneAsync("How to Play");
+            LoadScene("How to Play");
         }
         public void OpenCredits()
         {
-            SceneManager.LoadSceneAsync("Credits");
+            LoadScene("Credits");
+        }
+
+        bool loadingScene;
+        void LoadScene(string scene)
+        {
+            if (loadingScene)
+            {
+                return;
+            }
+            loadingScene = true;
+
+            SceneManager.LoadSceneAsync(scene);
+        }
+
+        private void Update()
+        {
+            if (loadingScene || playing)
+            {
+                return;
+            }
+            //Allow opening the menus with controller or keyboard
+            int xMovement = Mathf.RoundToInt(ControlsManager.GetLetterMovement().x);
+            if (xMovement == -1)
+            {
+                OpenHelp();
+            }
+            else if (xMovement == 1)
+            {
+                OpenCredits();
+            }
         }
     }
 }

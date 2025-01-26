@@ -2,43 +2,46 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ControllerHint : MonoBehaviour
+namespace Donutask.Wordfall
 {
-    [SerializeField] GameObject gamepadHint, keyboardHint;
-
-    private void Start()
+    public class ControllerHint : MonoBehaviour
     {
-        //Force update at start
-        lastState = null;
-        UpdateHint(ControlsManager.usingGamepad);
+        [SerializeField] GameObject gamepadHint, keyboardHint;
 
-        ControlsManager.gamepadChangeEvent.AddListener(UpdateHint);
-    }
+        private void Start()
+        {
+            //Force update at start
+            lastState = null;
+            UpdateHint(ControllerChange.usingGamepad);
 
-    bool? lastState;
-    void UpdateHint(bool usingGamepad)
-    {
-        if (usingGamepad == lastState)
-        {
-            return;
-        }
-        lastState = usingGamepad;
-
-        if (usingGamepad)
-        {
-            if (gamepadHint != null)
-                gamepadHint.SetActive(true);
-            if (keyboardHint != null)
-                keyboardHint.SetActive(false);
-        }
-        else
-        {
-            if (gamepadHint != null)
-                gamepadHint.SetActive(false);
-            if (keyboardHint != null)
-                keyboardHint.SetActive(true);
+            ControllerChange.gamepadChangeEvent.AddListener(UpdateHint);
         }
 
-        Debug.Log("Update controller hint");
+        bool? lastState;
+        void UpdateHint(bool usingGamepad)
+        {
+            if (usingGamepad == lastState)
+            {
+                return;
+            }
+            lastState = usingGamepad;
+
+            if (usingGamepad)
+            {
+                if (gamepadHint != null)
+                    gamepadHint.SetActive(true);
+                if (keyboardHint != null)
+                    keyboardHint.SetActive(false);
+            }
+            else
+            {
+                if (gamepadHint != null)
+                    gamepadHint.SetActive(false);
+                if (keyboardHint != null)
+                    keyboardHint.SetActive(true);
+            }
+
+            Debug.Log("Update controller hint");
+        }
     }
 }

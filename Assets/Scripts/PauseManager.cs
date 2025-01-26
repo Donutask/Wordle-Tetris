@@ -10,7 +10,11 @@ namespace Donutask.Wordfall
 
         private void Start()
         {
-            ControlsManager.pauseEvent.AddListener(TogglePause);
+            //only allow pausing after the game has started
+            StartScreen.startGame.AddListener(delegate
+            {
+                ControlsManager.pauseEvent.AddListener(TogglePause);
+            });
         }
 
         void TogglePause()
