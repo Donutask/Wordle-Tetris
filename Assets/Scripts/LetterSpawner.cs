@@ -23,6 +23,7 @@ namespace Donutask.Wordfall
         //UI
         [SerializeField] Image nextIndicator;
         [SerializeField] Image afterNextIndicator;
+        [SerializeField] Image afterAfterNextIndicator;
         [SerializeField] Image storedIndicator;
 
         private void Start()
@@ -72,7 +73,7 @@ namespace Donutask.Wordfall
                 //Must have 10 tiles on screen, not have a bomb stored, not have a bomb already coming, and meet a ~10% chance.
                 if (Grid.letterCount > 10 && storedLetter != WordManager.bomb && bombIn < 0 && Random.value < bombChance)
                 {
-                    bombIn = 2;
+                    bombIn = 3;
                 }
                 letterIndex++;
             }
@@ -103,6 +104,8 @@ namespace Donutask.Wordfall
 
         void UpdateUpcomingIndicators()
         {
+            string currentAndNextWord = currentWord + nextWord;
+
             //Show next letter
             Sprite s1;
             if (bombIn == 1)
@@ -111,14 +114,7 @@ namespace Donutask.Wordfall
             }
             else
             {
-                if (letterIndex >= 5)
-                {
-                    s1 = WordManager.GetLetterSprite(nextWord[0]);
-                }
-                else
-                {
-                    s1 = WordManager.GetLetterSprite(currentWord[letterIndex]);
-                }
+                s1 = WordManager.GetLetterSprite(currentAndNextWord[letterIndex]);
             }
             nextIndicator.sprite = s1;
 
@@ -130,20 +126,20 @@ namespace Donutask.Wordfall
             }
             else
             {
-                if (letterIndex >= 5)
-                {
-                    s2 = WordManager.GetLetterSprite(nextWord[1]);
-                }
-                else if (letterIndex >= 4)
-                {
-                    s2 = WordManager.GetLetterSprite(nextWord[0]);
-                }
-                else
-                {
-                    s2 = WordManager.GetLetterSprite(currentWord[letterIndex + 1]);
-                }
+                s2 = WordManager.GetLetterSprite(currentAndNextWord[letterIndex + 1]);
             }
             afterNextIndicator.sprite = s2;
+
+            Sprite s3;
+            if (bombIn == 3)
+            {
+                s3 = WordManager.GetLetterSprite(WordManager.bomb);
+            }
+            else
+            {
+                s3 = WordManager.GetLetterSprite(currentAndNextWord[letterIndex + 2]);
+            }
+            afterAfterNextIndicator.sprite = s3;
         }
 
 

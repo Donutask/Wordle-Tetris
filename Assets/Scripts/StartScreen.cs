@@ -13,6 +13,7 @@ namespace Donutask.Wordfall
         private void Start()
         {
             startUI.SetActive(true);
+            normalUI.SetActive(false);
 
             ControlsManager.startEvent.AddListener(Play);
         }
