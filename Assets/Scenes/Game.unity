@@ -2141,9 +2141,10 @@ MonoBehaviour:
   letterPrefab: {fileID: 5905943406782135038, guid: eb7f71a0324974440baaf3f1fa5d37d9, type: 3}
   spawnPostiion: {x: 2, y: 7}
   bombChance: 0.1
-  nextIndicator: {fileID: 1389161025}
-  afterNextIndicator: {fileID: 925618956}
-  afterAfterNextIndicator: {fileID: 553125772}
+  nextIndicators:
+  - {fileID: 1389161025}
+  - {fileID: 925618956}
+  - {fileID: 553125772}
   storedIndicator: {fileID: 1267567032}
 --- !u!4 &661055535
 Transform:

@@ -21,9 +21,7 @@ namespace Donutask.Wordfall
         static System.Random rng = new System.Random();
 
         //UI
-        [SerializeField] Image nextIndicator;
-        [SerializeField] Image afterNextIndicator;
-        [SerializeField] Image afterAfterNextIndicator;
+        [SerializeField] Image[] nextIndicators;
         [SerializeField] Image storedIndicator;
 
         private void Start()
@@ -102,46 +100,26 @@ namespace Donutask.Wordfall
             letterIndex = 0;
         }
 
+        //Show next letters
         void UpdateUpcomingIndicators()
         {
             string currentAndNextWord = currentWord + nextWord;
 
-            //Show next letter
-            Sprite s1;
-            if (bombIn == 1)
+            for (int i = 0; i < nextIndicators.Length; i++)
             {
-                s1 = WordManager.GetLetterSprite(WordManager.bomb);
+                Image indicator = nextIndicators[i];
+                Sprite s;
+                if (bombIn == i + 1)
+                {
+                    s = WordManager.GetLetterSprite(WordManager.bomb);
+                }
+                else
+                {
+                    s = WordManager.GetLetterSprite(currentAndNextWord[letterIndex + i]);
+                }
+                indicator.sprite = s;
             }
-            else
-            {
-                s1 = WordManager.GetLetterSprite(currentAndNextWord[letterIndex]);
-            }
-            nextIndicator.sprite = s1;
-
-
-            Sprite s2;
-            if (bombIn == 2)
-            {
-                s2 = WordManager.GetLetterSprite(WordManager.bomb);
-            }
-            else
-            {
-                s2 = WordManager.GetLetterSprite(currentAndNextWord[letterIndex + 1]);
-            }
-            afterNextIndicator.sprite = s2;
-
-            Sprite s3;
-            if (bombIn == 3)
-            {
-                s3 = WordManager.GetLetterSprite(WordManager.bomb);
-            }
-            else
-            {
-                s3 = WordManager.GetLetterSprite(currentAndNextWord[letterIndex + 2]);
-            }
-            afterAfterNextIndicator.sprite = s3;
         }
-
 
         char storedLetter;
         public void Store()
