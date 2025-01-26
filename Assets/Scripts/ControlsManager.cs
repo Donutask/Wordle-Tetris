@@ -8,9 +8,11 @@ public class ControlsManager : MonoBehaviour
     [SerializeField] InputAction dropAction;
     [SerializeField] InputAction storeAction;
     [SerializeField] InputAction startAction;
+    [SerializeField] InputAction pauseAction;
 
     public static UnityEvent storeEvent;
     public static UnityEvent startEvent;
+    public static UnityEvent pauseEvent;
 
     static ControlsManager Instance;
     void Awake()
@@ -24,6 +26,9 @@ public class ControlsManager : MonoBehaviour
 
         startAction.Enable();
         startEvent = new UnityEvent();
+
+        pauseAction.Enable();
+        pauseEvent = new UnityEvent();
     }
 
     public static Vector2 GetLetterMovement()
@@ -45,6 +50,11 @@ public class ControlsManager : MonoBehaviour
         if (startAction.WasPerformedThisFrame())
         {
             startEvent.Invoke();
+        }
+
+        if (pauseAction.WasPerformedThisFrame())
+        {
+            pauseEvent.Invoke();
         }
     }
 }

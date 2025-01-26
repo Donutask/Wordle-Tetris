@@ -51,6 +51,12 @@ namespace Donutask.Wordfall
             while (!locked)
             {
                 yield return new WaitForSeconds(stepTime);
+                //Don't run if paused
+                if (PauseManager.paused)
+                {
+                    continue;
+                }
+                //Definately stop moving if placed
                 if (locked)
                 {
                     yield break;
