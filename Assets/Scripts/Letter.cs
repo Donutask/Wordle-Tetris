@@ -23,16 +23,19 @@ namespace Donutask.Wordfall
 
         private void Start()
         {
+            StartCoroutine(Step());
+            locked = false;
+
+            //this makes you instantly lose without time to move the letter out of the way
             //Check if letter is already under it
-            if (Grid.DoesLetterExistInDirection(this, Vector2Int.down))
-            {
-                GameOver.Instance.EndGame();
-            }
-            else
-            {
-                StartCoroutine(Step());
-                locked = false;
-            }
+            //if (Grid.DoesLetterExistInDirection(this, Vector2Int.down))
+            //{
+            //    GameOver.Instance.EndGame();
+            //}
+            //else
+            //{
+
+            //}
         }
 
         public void SetLetter(char l)
