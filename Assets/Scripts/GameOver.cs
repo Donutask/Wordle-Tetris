@@ -12,15 +12,18 @@ namespace Donutask.Wordfall
         private void Awake()
         {
             Instance = this;
+            gameOver = false;
         }
 
         [SerializeField] GameObject normalUI, gameOverUI;
         [SerializeField] ParticleSystem particles;
         [SerializeField] TextMeshProUGUI scoreText, highScoreText, cheatIndicationText;
         [SerializeField] AudioSource music;
+        public static bool gameOver { get; private set; }
 
         public void EndGame()
         {
+            gameOver = true;
             normalUI.SetActive(false);
             gameOverUI.SetActive(true);
 

@@ -19,6 +19,12 @@ namespace Donutask.Wordfall
 
         void TogglePause()
         {
+            //Can't pause when game isn't playing
+            if (!StartScreen.started || GameOver.gameOver)
+            {
+                return;
+            }
+
             paused = !paused;
 
             Time.timeScale = paused ? 0 : 1;

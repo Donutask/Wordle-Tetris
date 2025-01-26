@@ -9,6 +9,7 @@ namespace Donutask.Wordfall
 {
     public class StartScreen : MonoBehaviour
     {
+        public static bool started { get; private set; }
         [SerializeField] GameObject startUI, normalUI;
         public static UnityEvent startGame = new();
 
@@ -17,6 +18,7 @@ namespace Donutask.Wordfall
             startUI.SetActive(true);
             normalUI.SetActive(false);
 
+            started = false;
             StartCoroutine(WaitSlightlyBeforeAllowingStart());
         }
 
@@ -27,15 +29,14 @@ namespace Donutask.Wordfall
             ControlsManager.startEvent.AddListener(Play);
         }
 
-        bool playing = false;
         private void Play()
         {
-            if (playing)
+            if (started)
             {
                 return;
             }
 
-            playing = true;
+            started = true;
 
             startUI.SetActive(false);
             normalUI.SetActive(true);
@@ -67,7 +68,7 @@ namespace Donutask.Wordfall
 
         private void Update()
         {
-            if (loadingScene || playing)
+            if (loadingScene || started || GameOver.gameOver)
             {
                 return;
             }

@@ -25,17 +25,6 @@ namespace Donutask.Wordfall
         {
             StartCoroutine(Step());
             locked = false;
-
-            //this makes you instantly lose without time to move the letter out of the way
-            //Check if letter is already under it
-            //if (Grid.DoesLetterExistInDirection(this, Vector2Int.down))
-            //{
-            //    GameOver.Instance.EndGame();
-            //}
-            //else
-            //{
-
-            //}
         }
 
         public void SetLetter(char l)
@@ -70,6 +59,20 @@ namespace Donutask.Wordfall
                 //Falling
                 if ((stepCount % stepsPerGravity == 0 && stepCount > 0) || ControlsManager.IsDropping())
                 {
+                    if (transform.position.y >= Grid.height && Grid.DoesLetterExistInDirection(this, Vector2Int.down))
+                    {
+                        //If too high up, end the game, unless it is a bomb.
+                        //If you lose to a bomb being out of the grid it feels kinda unfair
+                        if (letter == WordManager.bomb)
+                        {
+                            PlaceLetter();
+                        }
+                        else
+                        {
+                            GameOver.Instance.EndGame();
+                            yield break;
+                        }
+                    }
                     transform.position += Vector3.down;
                 }
                 else

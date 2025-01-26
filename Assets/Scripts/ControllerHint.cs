@@ -41,7 +41,7 @@ namespace Donutask.Wordfall
                     keyboardHint.SetActive(true);
             }
 
-            Debug.Log("Update controller hint");
+            //Debug.Log("Update controller hint");
         }
     }
 }
