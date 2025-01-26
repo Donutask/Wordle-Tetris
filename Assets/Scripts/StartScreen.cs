@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Donutask.Wordfall
 {
@@ -15,6 +17,13 @@ namespace Donutask.Wordfall
             startUI.SetActive(true);
             normalUI.SetActive(false);
 
+            StartCoroutine(WaitSlightlyBeforeAllowingStart());
+        }
+
+        //Otherwise pressing space to go to main menu will instantly start the game
+        IEnumerator WaitSlightlyBeforeAllowingStart()
+        {
+            yield return new WaitForSeconds(0.25f);
             ControlsManager.startEvent.AddListener(Play);
         }
 
