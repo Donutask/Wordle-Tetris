@@ -14,6 +14,7 @@ namespace Donutask.Wordfall
         const int scorePerLine = 50;
         [SerializeField] TextMeshProUGUI scoreText;
         [SerializeField] ParticleSystem confetti;
+        ParticleSystem.TextureSheetAnimationModule conffettiLetters;
 
         static WordChecker Instance;
         private void Awake()
@@ -23,6 +24,8 @@ namespace Donutask.Wordfall
             UpdateScore();
 
             wordsCreated = new List<string>();
+
+            conffettiLetters = confetti.textureSheetAnimation;
         }
 
         /// <summary>
@@ -63,6 +66,7 @@ namespace Donutask.Wordfall
                 {
                     wordsCreated.Add(word);
                     ClearRow(y);
+                    ClearConfetti(y, word);
                 }
             }
 
@@ -111,13 +115,21 @@ namespace Donutask.Wordfall
                 }
             }
 
-            //Show confetti centred on row
-            confetti.transform.position = new Vector3(Grid.width / 2, y);
-            confetti.Play();
-
             AudioManager.instance.Play("Line Clear");
 
             score += scorePerLine; UpdateScore();
+        }
+
+        void ClearConfetti(int y, string word)
+        {
+            //Show confetti centred on row
+            confetti.transform.position = new Vector3(Grid.width / 2, y);
+            for (int i = 0; i < word.Length; i++)
+            {
+                conffettiLetters.SetSprite(i, WordManager.GetLetterSprite(word[i]));
+            }
+            confetti.Play();
+
         }
         /// <summary>
         /// delete all tiles in column

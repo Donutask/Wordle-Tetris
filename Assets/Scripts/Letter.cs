@@ -14,11 +14,6 @@ namespace Donutask.Wordfall
         static readonly int stepsPerGravity = 5;
         protected SpriteRenderer spriteRenderer;
 
-        //Because of storing allowing you to switch the letter at any time, all letters must have the components of a bomb
-        [SerializeField] ParticleSystem bombParticles;
-        [SerializeField] ParticleSystem shineParticles;
-
-
         int stepCount;
         bool locked;
 
@@ -28,6 +23,7 @@ namespace Donutask.Wordfall
             locked = false;
         }
 
+        private ParticleSystem shineParticles;
         public void SetLetter(char l)
         {
             letter = l;
@@ -41,11 +37,19 @@ namespace Donutask.Wordfall
             //Blank tiles have special particles (becuase they are special)
             if (letter == WordManager.blank)
             {
-                shineParticles.Play();
+                if (shineParticles == null)
+                {
+                    shineParticles = LetterParticlesManager.Instance.CreateAndPlayParticles(transform, ParticleType.BlankShine);
+                }
+                else
+                {
+                    shineParticles.Play();
+                }
             }
             else
             {
-                shineParticles.Stop();
+                if (shineParticles != null)
+                    shineParticles.Stop();
             }
         }
 
@@ -133,7 +137,14 @@ namespace Donutask.Wordfall
                 if (letter == WordManager.blank)
                 {
                     //Blanks need to choose the letter, then we lock it in
-                    BlankLetterChooser.ChooseBlank((char l) => { SetLetter(l); WordChecker.LockInLetter(this); });
+                    BlankLetterChooser.ChooseBlank((char l) =>
+                    {
+                        SetLetter(l);
+                        WordChecker.LockInLetter(this);
+                        var particleBurst = LetterParticlesManager.Instance.CreateAndPlayParticles(transform, ParticleType.BlankChosen);
+                        Destroy(shineParticles.gameObject, 1f);
+                        Destroy(particleBurst.gameObject, 1f);
+                    });
                 }
                 else
                 {
@@ -151,7 +162,7 @@ namespace Donutask.Wordfall
             //Explode
             if (letter == WordManager.bomb)
             {
-                bombParticles.Play();
+                LetterParticlesManager.Instance.CreateAndPlayParticles(transform, ParticleType.Bomb);
                 Destroy(gameObject, 0.9f);
 
                 spriteRenderer.enabled = false;
@@ -159,17 +170,19 @@ namespace Donutask.Wordfall
             else if (letter == WordManager.blank)
             {
                 //blank choosing happens above
-                Destroy(bombParticles.gameObject);
             }
             //Just place
             else
             {
-                // don't need the particles anymore (save some memory or whatever)
-                Destroy(bombParticles.gameObject);
-                Destroy(shineParticles.gameObject);
-
                 AudioManager.instance.Play("Place");
             }
+
+            //Shine not needed after place (if not blank) (give 1 sec for particles to naturally fade out)
+            if (letter != WordManager.blank)
+                if (shineParticles != null)
+                {
+                    Destroy(shineParticles.gameObject, 1f);
+                }
         }
 
         /// <summary>
