@@ -4,9 +4,10 @@ using UnityEngine.InputSystem;
 
 namespace Donutask.Wordfall
 {
-    public class CreditManager : MonoBehaviour
+    public class ExitSubMenu : MonoBehaviour
     {
         [SerializeField] InputAction exitAction;
+        bool loading;
 
         private void Start()
         {
@@ -16,8 +17,13 @@ namespace Donutask.Wordfall
 
         private void ExitAction_performed(InputAction.CallbackContext obj)
         {
+            if (loading)
+            {
+                return;
+            }
             exitAction.Disable();
             SceneManager.LoadSceneAsync("Game");
+            loading = true;
         }
     }
 }

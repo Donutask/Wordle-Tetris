@@ -18,13 +18,22 @@ namespace Donutask.Wordfall
             }
         }
         public static UnityEvent<bool> gamepadChangeEvent;
+        static bool ready;
 
         private void Awake()
         {
-            InputSystem.onDeviceChange += InputSystem_onDeviceChange;
-            gamepadChangeEvent = new UnityEvent<bool>();
+            if (!ready)
+            {
+                InputSystem.onDeviceChange += InputSystem_onDeviceChange;
+                gamepadChangeEvent = new UnityEvent<bool>();
 
-            DontDestroyOnLoad(gameObject);
+                DontDestroyOnLoad(gameObject);
+                ready = true;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
 
         string prevName;

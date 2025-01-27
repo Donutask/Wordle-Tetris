@@ -18,7 +18,6 @@ namespace Donutask.Wordfall
         [SerializeField] GameObject normalUI, gameOverUI;
         [SerializeField] ParticleSystem particles;
         [SerializeField] TextMeshProUGUI scoreText, highScoreText, cheatIndicationText;
-        [SerializeField] AudioSource music;
         public static bool gameOver { get; private set; }
 
         public void EndGame()
@@ -53,8 +52,7 @@ namespace Donutask.Wordfall
 
             ControlsManager.startEvent.AddListener(PlayAgain);
 
-            //Fade out music
-            StartCoroutine(StartFade(music, 2.5f, 0));
+            MusicManager.FadeOutMusic();
         }
 
         bool loadingScene;
@@ -69,17 +67,6 @@ namespace Donutask.Wordfall
             SceneManager.LoadScene(0);
         }
 
-        static IEnumerator StartFade(AudioSource audioSource, float duration, float targetVolume)
-        {
-            float currentTime = 0;
-            float start = audioSource.volume;
-            while (currentTime < duration)
-            {
-                currentTime += Time.deltaTime;
-                audioSource.volume = Mathf.Lerp(start, targetVolume, currentTime / duration);
-                yield return null;
-            }
-            yield break;
-        }
+
     }
 }

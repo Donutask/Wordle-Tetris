@@ -1373,10 +1373,11 @@ MonoBehaviour:
 
     The
     letters you are given are not random. They will always be able to form a valid
-    5-letter word. The next 2 letters are shown at the top.
+    5-letter word. At the start, the words selected will have more anagrams. As you
+    clear more words, they will get more difficult. The next 2 letters are shown
+    at the top.
 
-    <style=h2>Special
-    Letters</style>s'
+    <style=h2>Special Letters</style>s'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2467d560650194aacad87c2caa84cb8c, type: 2}
   m_sharedMaterial: {fileID: -1839514695829740488, guid: 2467d560650194aacad87c2caa84cb8c, type: 2}
@@ -3677,7 +3678,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1404801114}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.2938656
+  m_Size: 0.2664557
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
