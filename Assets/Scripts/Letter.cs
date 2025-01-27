@@ -136,22 +136,24 @@ namespace Donutask.Wordfall
 
                 if (letter == WordManager.blank)
                 {
-                    //Blanks need to choose the letter, then we lock it in
+                    //Blanks need to choose the letter, then we lock it in and spawn next
                     BlankLetterChooser.ChooseBlank((char l) =>
                     {
                         SetLetter(l);
-                        WordChecker.LockInLetter(this);
+                        WordChecker.LockInLetter(this, allowScore: false);
                         var particleBurst = LetterParticlesManager.Instance.CreateAndPlayParticles(transform, ParticleType.BlankChosen);
                         Destroy(shineParticles.gameObject, 1f);
                         Destroy(particleBurst.gameObject, 1f);
+
+                        LetterSpawner.spawnTile.Invoke();
                     });
                 }
                 else
                 {
                     WordChecker.LockInLetter(this);
+                    LetterSpawner.spawnTile.Invoke();
                 }
 
-                LetterSpawner.spawnTile.Invoke();
 
                 OnPlace();
             }

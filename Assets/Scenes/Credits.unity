@@ -562,7 +562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 1194551426}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &817090157
@@ -1094,7 +1094,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1839772567}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.79490054
+  m_Size: 0.7859509
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

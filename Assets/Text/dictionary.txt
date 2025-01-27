@@ -6512,6 +6512,7 @@ luffs
 luged
 luger
 luges
+luigi
 lulls
 lulus
 lumas
@@ -12725,6 +12726,7 @@ yechy
 yedes
 yeeds
 yeesh
+yeets
 yeggs
 yelks
 yells

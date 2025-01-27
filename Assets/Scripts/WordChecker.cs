@@ -32,7 +32,7 @@ namespace Donutask.Wordfall
         /// Assigns to grid, handles bombs, gives scores, initiates word checking
         /// </summary>
         /// <param name="l"></param>
-        public static void LockInLetter(Letter l)
+        public static void LockInLetter(Letter l, bool allowScore = true)
         {
             //Bombs don't persist, rather they blow up their row
             if (l.letter == WordManager.bomb)
@@ -44,7 +44,7 @@ namespace Donutask.Wordfall
             Grid.AssignLetter(l);
 
             //Give score (special letters don't give any score)
-            if (WordManager.letterValues.TryGetValue(l.letter, out int scoreValue))
+            if (allowScore && WordManager.letterValues.TryGetValue(l.letter, out int scoreValue))
             {
                 score += scoreValue;
                 Instance.UpdateScore();
