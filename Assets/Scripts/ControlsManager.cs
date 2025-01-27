@@ -12,6 +12,8 @@ namespace Donutask.Wordfall
         [SerializeField] InputAction startAction;
         [SerializeField] InputAction pauseAction;
         [SerializeField] InputAction quitAction;
+        [SerializeField] InputAction tempMusicAction;
+        [SerializeField] AudioSource music;
 
         public static UnityEvent storeEvent;
         public static UnityEvent startEvent;
@@ -34,6 +36,14 @@ namespace Donutask.Wordfall
             pauseEvent = new UnityEvent();
 
             quitAction.Enable();
+
+            tempMusicAction.Enable();
+            tempMusicAction.performed += TempMusicAction_performed;
+        }
+
+        private void TempMusicAction_performed(InputAction.CallbackContext obj)
+        {
+            music.enabled = !music.enabled;
         }
 
         public static Vector2 GetLetterMovement()
