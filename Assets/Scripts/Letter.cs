@@ -201,9 +201,8 @@ namespace Donutask.Wordfall
         /// </summary>
         public void Fall()
         {
-            Grid.UnassignLetter(this);
+            Grid.MoveLetter(this, Vector2Int.down);
             transform.position += Vector3.down;
-            Grid.AssignLetter(this);
         }
     }
 }

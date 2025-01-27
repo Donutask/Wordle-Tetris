@@ -72,9 +72,9 @@ namespace Donutask.Wordfall
             {
                 chosenLetter = currentWord[letterIndex];
 
-                //To get a bomb:
-                //Must have 10 tiles on screen, not have a bomb stored, not have a bomb already coming, and meet a ~10% chance.
-                if (Grid.letterCount > 10 && !WordManager.IsLetterSpecial(storedLetter) && specialIn < 0)
+                //To get a special:
+                //Must have 5 tiles on screen (10 ever), not have a bomb stored, not have a bomb already coming, and meet a ~10% chance.
+                if (Grid.totalLetterCount > 10 && Grid.letterCount > 5 && !WordManager.IsLetterSpecial(storedLetter) && specialIn < 0)
                 {
                     if (Random.value < bombChance)
                     {

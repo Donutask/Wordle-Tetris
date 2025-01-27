@@ -11,12 +11,14 @@ namespace Donutask.Wordfall
 
         public static Letter[,] letters;
         public static int letterCount { get; private set; }
+        public static int totalLetterCount { get; private set; }
 
 
         public static void ResetGrid()
         {
             letters = new Letter[width, height];
             letterCount = 0;
+            totalLetterCount = 0;
         }
 
         public static void AssignLetter(Letter l)
@@ -25,6 +27,7 @@ namespace Donutask.Wordfall
             letters[pos.x, pos.y] = l;
 
             letterCount++;
+            totalLetterCount++;
         }
 
         public static void UnassignLetter(Letter l)
@@ -36,6 +39,14 @@ namespace Donutask.Wordfall
         {
             letters[pos.x, pos.y] = null;
             letterCount--;
+        }
+        public static void MoveLetter(Letter l, Vector2Int toDir)
+        {
+            Vector2Int pos = RoundPosition(l.transform);
+            letters[pos.x, pos.y] = null;
+
+            Vector2Int toPos = pos + toDir;
+            letters[toPos.x, toPos.y] = l;
         }
 
         public static bool DoesLetterExistInDirection(Letter letter, Vector2Int dir)
