@@ -4,7 +4,7 @@ namespace Donutask.Wordfall
 {
     public class LetterParticlesManager : MonoBehaviour
     {
-        public ParticleSystem bombParticles, blankShineParticles, blankChosenParticles;
+        public ParticleSystem bombParticles, blankShineParticles, blankChosenParticles, shuffleParticles;
         public static LetterParticlesManager Instance;
 
         private void Awake()
@@ -26,6 +26,9 @@ namespace Donutask.Wordfall
                 case ParticleType.BlankChosen:
                     obj = blankChosenParticles.gameObject;
                     break;
+                case ParticleType.Shuffle:
+                    obj = shuffleParticles.gameObject;
+                    break;
                 default:
                     obj = null;
                     break;
@@ -44,6 +47,7 @@ namespace Donutask.Wordfall
     {
         Bomb,
         BlankShine,
-        BlankChosen
+        BlankChosen,
+        Shuffle
     }
 }

@@ -173,6 +173,13 @@ namespace Donutask.Wordfall
             {
                 //blank choosing happens above
             }
+            else if (letter == WordManager.shuffle)
+            {
+                spriteRenderer.enabled = false;
+                LetterParticlesManager.Instance.CreateAndPlayParticles(transform, ParticleType.Shuffle);
+
+                Destroy(gameObject, 0.9f);
+            }
             //Just place
             else
             {
@@ -201,8 +208,17 @@ namespace Donutask.Wordfall
         /// </summary>
         public void Fall()
         {
-            Grid.MoveLetter(this, Vector2Int.down);
+            Grid.MoveLetterInDirection(this, Vector2Int.down);
             transform.position += Vector3.down;
+        }
+
+        /// <summary>
+        /// Does't apply in grid
+        /// </summary>
+        /// <param name="pos"></param>
+        public void MoveTo(Vector2Int pos)
+        {
+            transform.position = new Vector3(pos.x, pos.y);
         }
     }
 }

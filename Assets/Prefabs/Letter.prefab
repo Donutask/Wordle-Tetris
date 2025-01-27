@@ -45,9 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2fe3318b37514effa386a53e2724455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bombParticles: {fileID: 0}
-  shineParticles: {fileID: 0}
-  shinesplosionParticles: {fileID: 0}
 --- !u!212 &6635386193946896672
 SpriteRenderer:
   m_ObjectHideFlags: 0

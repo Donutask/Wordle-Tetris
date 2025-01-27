@@ -40,7 +40,7 @@ namespace Donutask.Wordfall
             if (spawnAction.WasPerformedThisFrame())
             {
                 wereCheatsUsed = true;
-                LetterSpawner.OverwriteLetter('?');
+                LetterSpawner.OverwriteLetter('!');
             }
         }
     }

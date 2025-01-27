@@ -15,9 +15,10 @@ namespace Donutask.Wordfall
         /// <summary>
         /// All letters in english alphabet (and backspace symbol for bomb)
         /// </summary>
-        public static readonly char[] alphabet = "abcdefghijklmnopqrstuvwxyz⌫?".ToCharArray();
+        public static readonly char[] alphabet = "abcdefghijklmnopqrstuvwxyz⌫?!".ToCharArray();
         public const char bomb = '⌫';
         public const char blank = '?';
+        public const char shuffle = '!';
 
         /// <summary>
         /// Array of all accepted words

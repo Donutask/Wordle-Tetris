@@ -40,12 +40,18 @@ namespace Donutask.Wordfall
             letters[pos.x, pos.y] = null;
             letterCount--;
         }
-        public static void MoveLetter(Letter l, Vector2Int toDir)
+        public static void MoveLetterInDirection(Letter l, Vector2Int toDir)
         {
             Vector2Int pos = RoundPosition(l.transform);
             letters[pos.x, pos.y] = null;
 
             Vector2Int toPos = pos + toDir;
+            letters[toPos.x, toPos.y] = l;
+        }
+        public static void MoveLetterTo(Letter l, Vector2Int toPos)
+        {
+            Vector2Int pos = RoundPosition(l.transform);
+            letters[pos.x, pos.y] = null;
             letters[toPos.x, toPos.y] = l;
         }
 

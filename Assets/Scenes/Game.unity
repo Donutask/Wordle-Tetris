@@ -2779,6 +2779,7 @@ MonoBehaviour:
   - {fileID: 951022507, guid: 8a045de41ba87564f8ac8be018c93dfa, type: 3}
   - {fileID: -4703507748163196627, guid: 6cf08fd84ccf24f3ab8d7b9acb7cf015, type: 3}
   - {fileID: 21300000, guid: f20d49dde79544c2a9a68a3dda42343c, type: 3}
+  - {fileID: 21300000, guid: bf7065c885832411883819bccd481dae, type: 3}
 --- !u!114 &661055537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3311,6 +3312,7 @@ MonoBehaviour:
   bombParticles: {fileID: 1007488828903902888, guid: 8f666274abc354b24ae39886a7d3a3ae, type: 3}
   blankShineParticles: {fileID: 4352424722804719039, guid: edd60542d97df48c69e2abec99eef9be, type: 3}
   blankChosenParticles: {fileID: 1673725124083656607, guid: 805e75695450d40a39b02f12ee86de30, type: 3}
+  shuffleParticles: {fileID: 8141784051635588165, guid: 191d8ac1660fd42e48d47b011b86403c, type: 3}
 --- !u!1 &665685333
 GameObject:
   m_ObjectHideFlags: 0
@@ -4667,7 +4669,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Choose Blank
+  m_text: Choose Letter
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 37606d2b2832446e8983021e5cf8ee53, type: 2}
   m_sharedMaterial: {fileID: -6075296435062281101, guid: 37606d2b2832446e8983021e5cf8ee53, type: 2}
@@ -11962,7 +11964,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -185.30383, y: 0}
+  m_SizeDelta: {x: -245.80109, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1929349671
 MonoBehaviour:
