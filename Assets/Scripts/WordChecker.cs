@@ -40,8 +40,12 @@ namespace Donutask.Wordfall
 
             Grid.AssignLetter(l);
 
-            score += WordManager.letterValues[l.letter];
-            Instance.UpdateScore();
+            //Give score (special letters don't give any score)
+            if (WordManager.letterValues.TryGetValue(l.letter, out int scoreValue))
+            {
+                score += scoreValue;
+                Instance.UpdateScore();
+            }
 
             //Check if words are made when enough letters are down
             if (Grid.letterCount >= 5)

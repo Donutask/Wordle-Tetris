@@ -10,12 +10,13 @@ namespace Donutask.Wordfall
     public class Letter : MonoBehaviour
     {
         public char letter { get; private set; }
-        static readonly float stepTime = 0.175f;
+        public static readonly float stepTime = 0.175f;
         static readonly int stepsPerGravity = 5;
         protected SpriteRenderer spriteRenderer;
 
         //Because of storing allowing you to switch the letter at any time, all letters must have the components of a bomb
         [SerializeField] ParticleSystem bombParticles;
+        [SerializeField] ParticleSystem shineParticles;
 
 
         int stepCount;
@@ -36,6 +37,16 @@ namespace Donutask.Wordfall
                 spriteRenderer = GetComponent<SpriteRenderer>();
             }
             spriteRenderer.sprite = WordManager.GetLetterSprite(l);
+
+            //Blank tiles have special particles (becuase they are special)
+            if (letter == WordManager.blank)
+            {
+                shineParticles.Play();
+            }
+            else
+            {
+                shineParticles.Stop();
+            }
         }
 
         IEnumerator Step()
@@ -44,7 +55,7 @@ namespace Donutask.Wordfall
             {
                 yield return new WaitForSeconds(stepTime);
                 //Don't run if paused
-                if (PauseManager.paused)
+                if (PauseManager.paused || BlankLetterChooser.choosingLetter)
                 {
                     continue;
                 }
@@ -118,8 +129,18 @@ namespace Donutask.Wordfall
             if (locked == false)
             {
                 locked = true;
+
+                if (letter == WordManager.blank)
+                {
+                    //Blanks need to choose the letter, then we lock it in
+                    BlankLetterChooser.ChooseBlank((char l) => { SetLetter(l); WordChecker.LockInLetter(this); });
+                }
+                else
+                {
+                    WordChecker.LockInLetter(this);
+                }
+
                 LetterSpawner.spawnTile.Invoke();
-                WordChecker.LockInLetter(this);
 
                 OnPlace();
             }
@@ -135,10 +156,18 @@ namespace Donutask.Wordfall
 
                 spriteRenderer.enabled = false;
             }
+            else if (letter == WordManager.blank)
+            {
+                //blank choosing happens above
+                Destroy(bombParticles.gameObject);
+            }
             //Just place
             else
             {
-                Destroy(bombParticles.gameObject); // don't need the particles anymore lol
+                // don't need the particles anymore (save some memory or whatever)
+                Destroy(bombParticles.gameObject);
+                Destroy(shineParticles.gameObject);
+
                 AudioManager.instance.Play("Place");
             }
         }

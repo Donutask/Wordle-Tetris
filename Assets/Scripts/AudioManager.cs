@@ -14,7 +14,12 @@ public class AudioManager : MonoBehaviour
         instance = this;
     }
 
-    public void Play(string sound)
+    public bool IsPlaying()
+    {
+        return mainSource.isPlaying;
+    }
+
+    public void Play(string sound, float pitchMultiplier = 1)
     {
         SoundGroup s = sounds.First((s) => s.name == sound);
 
@@ -26,7 +31,7 @@ public class AudioManager : MonoBehaviour
         }
 
         //adjust volume and pitch
-        mainSource.pitch = s.pitch * (1f + Random.Range(-s.pitchVariance / 2f, s.pitchVariance / 2f));
+        mainSource.pitch = s.pitch * (1f + Random.Range(-s.pitchVariance / 2f, s.pitchVariance / 2f)) * pitchMultiplier;
         //play
         mainSource.PlayOneShot(s.clips[index], s.volume);
     }

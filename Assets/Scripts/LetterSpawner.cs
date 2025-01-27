@@ -16,6 +16,8 @@ namespace Donutask.Wordfall
 
         [SerializeField] Vector2 spawnPostiion;
         [SerializeField] float bombChance;
+        [SerializeField] float blankChance;
+
         public static UnityEvent spawnTile = new();
 
         static System.Random rng = new System.Random();
@@ -27,6 +29,7 @@ namespace Donutask.Wordfall
         private void Start()
         {
             currentWordUnshuffled = null;
+            currentLetter = null;
 
             spawnTile = new();
             spawnTile.AddListener(Spawn);
@@ -42,8 +45,10 @@ namespace Donutask.Wordfall
         string nextWordUnshuffled;
         string nextWord;
         int letterIndex;
-        int bombIn;
-        Letter currentLetter;
+        int specialIn;
+        char specialChar;
+
+        static Letter currentLetter;
 
         void Spawn()
         {
@@ -57,11 +62,11 @@ namespace Donutask.Wordfall
                 letterIndex = 0;
             }
             char chosenLetter;
-            bombIn--;
+            specialIn--;
 
-            if (bombIn == 0)
+            if (specialIn == 0)
             {
-                chosenLetter = WordManager.bomb;
+                chosenLetter = specialChar;
             }
             else
             {
@@ -69,9 +74,18 @@ namespace Donutask.Wordfall
 
                 //To get a bomb:
                 //Must have 10 tiles on screen, not have a bomb stored, not have a bomb already coming, and meet a ~10% chance.
-                if (Grid.letterCount > 10 && storedLetter != WordManager.bomb && bombIn < 0 && Random.value < bombChance)
+                if (Grid.letterCount > 10 && !WordManager.IsLetterSpecial(storedLetter) && specialIn < 0)
                 {
-                    bombIn = 3;
+                    if (Random.value < bombChance)
+                    {
+                        specialIn = 3;
+                        specialChar = WordManager.bomb;
+                    }
+                    else if (Random.value < blankChance)
+                    {
+                        specialIn = 3;
+                        specialChar = WordManager.blank;
+                    }
                 }
                 letterIndex++;
             }
@@ -109,9 +123,9 @@ namespace Donutask.Wordfall
             {
                 Image indicator = nextIndicators[i];
                 Sprite s;
-                if (bombIn == i + 1)
+                if (specialIn == i + 1)
                 {
-                    s = WordManager.GetLetterSprite(WordManager.bomb);
+                    s = WordManager.GetLetterSprite(specialChar);
                 }
                 else
                 {
@@ -124,6 +138,12 @@ namespace Donutask.Wordfall
         char storedLetter;
         public void Store()
         {
+            //Must be playing to use lol
+            if (BlankLetterChooser.choosingLetter || GameOver.gameOver || PauseManager.paused)
+            {
+                return;
+            }
+
             if (currentLetter == null)
             {
                 return;
@@ -133,7 +153,7 @@ namespace Donutask.Wordfall
             //if storing bomb, remove from up next
             if (currentLetterLetter == WordManager.bomb)
             {
-                bombIn = -1;
+                specialIn = -1;
             }
 
             if (storedLetter != default)
@@ -159,6 +179,11 @@ namespace Donutask.Wordfall
 
 
             storedIndicator.sprite = WordManager.GetLetterSprite(storedLetter);
+        }
+
+        public static void OverwriteLetter(char l)
+        {
+            currentLetter.SetLetter(l);
         }
 
         public static string Shuffle(string str)

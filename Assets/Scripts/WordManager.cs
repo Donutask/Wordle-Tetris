@@ -15,8 +15,9 @@ namespace Donutask.Wordfall
         /// <summary>
         /// All letters in english alphabet (and backspace symbol for bomb)
         /// </summary>
-        public static readonly char[] alphabet = "abcdefghijklmnopqrstuvwxyz⌫".ToCharArray();
+        public static readonly char[] alphabet = "abcdefghijklmnopqrstuvwxyz⌫?".ToCharArray();
         public const char bomb = '⌫';
+        public const char blank = '?';
 
         /// <summary>
         /// Array of all accepted words
@@ -62,8 +63,6 @@ namespace Donutask.Wordfall
         { 'x', 8 },
         { 'q', 10 },
         { 'z', 10 },
-        { bomb, 0 },
-
     };
 
         //For inspector
@@ -100,6 +99,11 @@ namespace Donutask.Wordfall
         {
             string word = wordleAnswerList[UnityEngine.Random.Range(0, wordleAnswerList.Length)];
             return word;
+        }
+
+        public static bool IsLetterSpecial(char letter)
+        {
+            return letter == bomb || letter == blank;
         }
 
         public static bool IsValidWord(string word)

@@ -11,6 +11,7 @@ namespace Donutask.Wordfall
         [SerializeField] InputAction storeAction;
         [SerializeField] InputAction startAction;
         [SerializeField] InputAction pauseAction;
+        [SerializeField] InputAction quitAction;
 
         public static UnityEvent storeEvent;
         public static UnityEvent startEvent;
@@ -31,6 +32,8 @@ namespace Donutask.Wordfall
 
             pauseAction.Enable();
             pauseEvent = new UnityEvent();
+
+            quitAction.Enable();
         }
 
         public static Vector2 GetLetterMovement()
@@ -57,6 +60,11 @@ namespace Donutask.Wordfall
             if (pauseAction.WasPerformedThisFrame())
             {
                 pauseEvent.Invoke();
+            }
+
+            if (quitAction.WasPerformedThisFrame())
+            {
+                Application.Quit();
             }
         }
     }

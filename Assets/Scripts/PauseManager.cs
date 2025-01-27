@@ -20,7 +20,7 @@ namespace Donutask.Wordfall
         void TogglePause()
         {
             //Can't pause when game isn't playing
-            if (!StartScreen.started || GameOver.gameOver)
+            if (!StartScreen.started || GameOver.gameOver || BlankLetterChooser.choosingLetter)
             {
                 return;
             }
