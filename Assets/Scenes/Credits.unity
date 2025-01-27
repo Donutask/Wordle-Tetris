@@ -419,11 +419,13 @@ MonoBehaviour:
     <b>Font:</b> Clear
     Sans
 
-    <b>Special Thanks</b> to my Dad and Uncle for testing :)
+    <b>Word Lists:</b> mitxela.com
+
+    <b>Special Thanks</b> to my Dad
+    and Uncle for testing :)
 
 
-    More
-    games at donutask.com'
+    More games at donutask.com'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2467d560650194aacad87c2caa84cb8c, type: 2}
   m_sharedMaterial: {fileID: -1839514695829740488, guid: 2467d560650194aacad87c2caa84cb8c, type: 2}
@@ -1094,7 +1096,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1839772567}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.7859509
+  m_Size: 0.6822136
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

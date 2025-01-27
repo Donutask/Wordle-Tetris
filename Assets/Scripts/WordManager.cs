@@ -23,7 +23,7 @@ namespace Donutask.Wordfall
         /// Array of all accepted words
         /// </summary>
         public static string[] wordList;
-        public static string[] wordleAnswerList;
+        public static string[][] solutionLists;
 
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Donutask.Wordfall
 
         //For inspector
         [SerializeField] TextAsset dictionaryFile;
-        [SerializeField] TextAsset wordleAnswerFile;
+        [SerializeField] TextAsset[] solutionFiles;
         [SerializeField] Sprite[] letterSprites;
 
         static WordManager Instance;
@@ -75,7 +75,11 @@ namespace Donutask.Wordfall
         private void Awake()
         {
             Instance = this;
-            LoadWordLists();
+
+            usedWords = new List<string>();
+
+            if (wordList == null)
+                LoadWordLists();
         }
 
         /// <summary>
@@ -84,20 +88,48 @@ namespace Donutask.Wordfall
         private void LoadWordLists()
         {
             wordList = dictionaryFile.text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            wordleAnswerList = wordleAnswerFile.text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+
+            solutionLists = new string[solutionFiles.Length][];
+            for (int i = 0; i < solutionFiles.Length; i++)
+            {
+                solutionLists[i] = solutionFiles[i].text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            }
         }
 
         public static char RandomLetter()
         {
             return alphabet[UnityEngine.Random.Range(0, alphabet.Length)];
         }
+
+        static List<string> usedWords;
         /// <summary>
-        /// Random word that is in the wordle answer list (so it isn't totaly obscure)
+        /// Random word that is in a specified solution list
+        /// 0 = easiest
+        /// 5 = hardest
         /// </summary>
         /// <returns></returns>
-        public static string RandomWord()
+        public static string RandomWord(int difficulty)
         {
-            string word = wordleAnswerList[UnityEngine.Random.Range(0, wordleAnswerList.Length)];
+            var list = solutionLists[difficulty];
+
+            string word = null;
+            int rolls = 0;
+            //Choose a random word, preferring one that hasn't been chosen already.
+            while (word == null || usedWords.Contains(word))
+            {
+                word = list[UnityEngine.Random.Range(0, list.Length)];
+                word = word.Trim();
+
+                //If given a couple chances to choose new one, give up
+                rolls++;
+                if (rolls > 3)
+                {
+                    return word;
+                }
+            }
+
+            //Add to list (if not already in it) to prevent duplicates
+            usedWords.Add(word);
             return word;
         }
 

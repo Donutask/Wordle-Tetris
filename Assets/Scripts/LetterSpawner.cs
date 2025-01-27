@@ -50,16 +50,14 @@ namespace Donutask.Wordfall
 
         static Letter currentLetter;
 
+
+
         void Spawn()
         {
             //setup
             if (currentWord == null)
             {
-                currentWordUnshuffled = WordManager.RandomWord();
-                currentWord = Shuffle(currentWordUnshuffled);
-                nextWordUnshuffled = WordManager.RandomWord();
-                nextWord = Shuffle(nextWordUnshuffled);
-                letterIndex = 0;
+                NextWord();
             }
             char chosenLetter;
             specialIn--;
@@ -107,9 +105,45 @@ namespace Donutask.Wordfall
 
         void NextWord()
         {
+            //currentWordUnshuffled = ;
+            //currentWord = Shuffle(currentWordUnshuffled);
+            //nextWordUnshuffled = WordManager.RandomWord(difficulty);
+            //nextWord = Shuffle(nextWordUnshuffled);
+            //letterIndex = 0;
+
+            //Difficulty calculation. Each difficulty level has less anagrams
+            int maxDifficulty = WordManager.solutionLists.GetLength(0);
+            int difficulty;
+            if (WordChecker.wordCount == 0)
+            {
+                difficulty = 0;
+            }
+            else
+            {
+
+                difficulty = Random.Range(0, WordChecker.wordCount);
+                //WordChecker.wordCount + Mathf.RoundToInt(Random.Range(-1.1f, 0.9f));
+            }
+
+            //Clamp difficulty
+            if (difficulty < 0)
+            {
+                difficulty = 0;
+            }
+            if (difficulty > maxDifficulty)
+            {
+                difficulty = maxDifficulty;
+            }
+
+
+            if (nextWordUnshuffled == null)
+            {
+                nextWordUnshuffled = WordManager.RandomWord(difficulty);
+                nextWord = Shuffle(nextWordUnshuffled);
+            }
             currentWordUnshuffled = nextWordUnshuffled;
             currentWord = nextWord;
-            nextWordUnshuffled = WordManager.RandomWord();
+            nextWordUnshuffled = WordManager.RandomWord(difficulty);
             nextWord = Shuffle(nextWordUnshuffled);
             letterIndex = 0;
         }
