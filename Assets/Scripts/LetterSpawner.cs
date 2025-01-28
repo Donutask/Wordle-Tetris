@@ -50,10 +50,13 @@ namespace Donutask.Wordfall
 
         static Letter currentLetter;
 
-
-
         void Spawn()
         {
+            if (GameOver.gameOver)
+            {
+                return;
+            }
+
             //setup
             if (currentWord == null)
             {

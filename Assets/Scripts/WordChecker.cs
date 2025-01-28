@@ -27,7 +27,7 @@ namespace Donutask.Wordfall
         {
             Instance = this;
             score = 0;
-            UpdateScore();
+            GiveScore(0);
 
             wordsCreated = new List<string>();
 
@@ -59,8 +59,7 @@ namespace Donutask.Wordfall
             //Give score (special letters don't give any score)
             if (allowScore && WordManager.letterValues.TryGetValue(l.letter, out int scoreValue))
             {
-                score += scoreValue;
-                Instance.UpdateScore();
+                Instance.GiveScore(scoreValue);
             }
 
             //Check if words are made when enough letters are down
@@ -228,7 +227,7 @@ namespace Donutask.Wordfall
 
             AudioManager.instance.Play("Line Clear");
 
-            score += scorePerLine; UpdateScore();
+            GiveScore(scorePerLine);
         }
 
         void ClearConfetti(int y, string word)
@@ -268,8 +267,19 @@ namespace Donutask.Wordfall
         /// <summary>
         /// Show score text
         /// </summary>
-        void UpdateScore()
+        void GiveScore(int points)
         {
+            //If you would exceed integer limit with your score
+            if (score + points < 0 && score > 0)
+            {
+                score = int.MaxValue;
+                GameOver.Instance.EndGame();
+            }
+            else
+            {
+                score += points;
+            }
+
             scoreText.text = "Score: " + score;
         }
     }
