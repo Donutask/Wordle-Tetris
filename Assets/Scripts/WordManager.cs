@@ -91,7 +91,7 @@ namespace Donutask.Wordfall
         }
 
         /// <summary>
-        /// Loads files into arrays
+        /// Loads files into arrays. Now async!
         /// </summary>
         private async Task LoadWordLists()
         {
@@ -113,6 +113,7 @@ namespace Donutask.Wordfall
             onWordListsLoaded.Invoke();
         }
 
+        //Splits the lines too
         private async Task<string[]> LoadTextAssetAsync(string key)
         {
             AsyncOperationHandle<TextAsset> handle = Addressables.LoadAssetAsync<TextAsset>(key);
