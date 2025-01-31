@@ -10,6 +10,8 @@ public class SceneLoadingTransition : MonoBehaviour
     public static SceneLoadingTransition Instance { get; private set; }
     [SerializeField] Slider slider;
     [SerializeField] float transitionDuration;
+    [SerializeField] AudioClip slideIn, slideOut;
+    [SerializeField] AudioSource audioSource;
 
     void Start()
     {
@@ -47,6 +49,8 @@ public class SceneLoadingTransition : MonoBehaviour
         float currentTime = 0;
         slider.value = 0;
 
+        audioSource.PlayOneShot(slideIn);
+
         while (currentTime < transitionDuration)
         {
             currentTime += Time.deltaTime;
@@ -60,6 +64,8 @@ public class SceneLoadingTransition : MonoBehaviour
 
         currentTime = 0;
         slider.value = 1;
+
+        audioSource.PlayOneShot(slideOut);
 
         while (currentTime < transitionDuration)
         {
