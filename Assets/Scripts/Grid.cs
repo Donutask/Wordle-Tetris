@@ -48,12 +48,32 @@ namespace Donutask.Wordfall
             Vector2Int toPos = pos + toDir;
             letters[toPos.x, toPos.y] = l;
         }
-        public static void MoveLetterTo(Letter l, Vector2Int toPos)
+
+        public static void MoveLetterToNoReplace(Letter l, Vector2Int newPos)
         {
-            Vector2Int pos = RoundPosition(l.transform);
-            letters[pos.x, pos.y] = null;
-            letters[toPos.x, toPos.y] = l;
+            letters[newPos.x, newPos.y] = l;
         }
+
+        //public static void MoveRow(int y, Letter[] newValues)
+        //{
+        //    Letter[] oldValues = new Letter[width];
+        //    for (int x = 0; x < width; x++)
+        //    {
+        //        oldValues[x] = letters[x, y];
+        //    }
+
+
+        //    for (int x = 0; x < width; x++)
+        //    {
+        //        letters[x, y] = newValues[x];
+        //    }
+        //}
+        //public static void MoveLetterTo(Letter l, Vector2Int toPos)
+        //{
+        //    Vector2Int pos = RoundPosition(l.transform);
+        //    letters[pos.x, pos.y] = null;
+        //    letters[toPos.x, toPos.y] = l;
+        //}
 
         public static bool DoesLetterExistInDirection(Letter letter, Vector2Int dir)
         {

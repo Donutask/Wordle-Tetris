@@ -143,11 +143,20 @@ namespace Donutask.Wordfall
                 }
             }
 
-            string target = ShuffleToTryToMakeWord(currentLine);
+            string target;
+            if (currentLine.Length == 4)
+            {
+                target = ShuffleToTryToMakeWord(currentLine);
+            }
+            else
+            {
+                target = LetterSpawner.Shuffle(currentLine);
+            }
 
             //move letter to correspond to letter position in shuffled string
-            Dictionary<Vector2Int, Letter> letters = new();
+            //Dictionary<Vector2Int, Letter> letters = new();
             Vector2Int[] newPositions = new Vector2Int[Grid.width];
+            Letter[] letters = new Letter[Grid.width];
 
             for (int x = 0; x < Grid.width; x++)
             {
@@ -157,10 +166,10 @@ namespace Donutask.Wordfall
                 {
                     for (int j = 0; j < target.Length; j++)
                     {
-                        if (letter.letter == target[j] && !letters.ContainsKey(pos))
+                        if (letter.letter == target[j])
                         {
                             newPositions[x] = new Vector2Int(j, y);
-                            letters.Add(pos, letter);
+                            letters[x] = letter;
                         }
                     }
                 }
@@ -172,11 +181,10 @@ namespace Donutask.Wordfall
             {
                 Vector2Int key = new Vector2Int(x, y);
                 Vector2Int newPos = newPositions[x];
-                if (Grid.TryGetLetter(key, out Letter letter))
-                {
-                    Grid.MoveLetterTo(letter, newPos);
+                var letter = letters[x];
+                Grid.MoveLetterToNoReplace(letter, newPos);
+                if (letter != null)
                     letter.MoveTo(newPos);
-                }
             }
         }
 
