@@ -42,7 +42,7 @@ namespace Donutask.Wordfall
             showingScreen = true;
         }
 
-        void CloseScreen()
+        public void CloseScreen()
         {
             statsScreen.SetActive(false);
             showingScreen = false;
@@ -109,6 +109,7 @@ namespace Donutask.Wordfall
             }
 
             totalTilesText.text = "Total Tiles: " + (vowelCount + consonantCount + specialCount);
+            lettersText.text = "Letters: " + (vowelCount + consonantCount);
             vowelsText.text = "Vowels: " + vowelCount;
             consonantsText.text = "Consonants: " + consonantCount;
             specialText.text = "Special: " + specialCount;

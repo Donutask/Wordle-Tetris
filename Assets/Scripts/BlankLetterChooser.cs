@@ -42,7 +42,7 @@ namespace Donutask.Wordfall
             AudioManager.instance.Play("Open");
         }
 
-        void ConfirmLetter()
+        public void ConfirmLetter()
         {
             choosingLetter = false;
             chooserUI.SetActive(false);

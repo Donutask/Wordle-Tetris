@@ -16,6 +16,11 @@ namespace Donutask.Wordfall
 
         private void ExitAction_performed(InputAction.CallbackContext obj)
         {
+            Escape();
+        }
+
+        public void Escape()
+        {
             if (loading)
             {
                 return;

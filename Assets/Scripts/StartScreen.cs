@@ -51,7 +51,7 @@ namespace Donutask.Wordfall
             ControlsManager.startEvent.AddListener(Play);
         }
 
-        private void Play()
+        public void Play()
         {
             if (started)
             {
