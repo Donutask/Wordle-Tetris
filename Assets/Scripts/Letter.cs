@@ -173,13 +173,6 @@ namespace Donutask.Wordfall
             {
                 //blank choosing happens above
             }
-            else if (letter == WordManager.shuffle)
-            {
-                spriteRenderer.enabled = false;
-                LetterParticlesManager.Instance.CreateAndPlayParticles(transform, ParticleType.Shuffle);
-
-                Destroy(gameObject, 0.9f);
-            }
             //Just place
             else
             {
