@@ -46,6 +46,10 @@ namespace Donutask.Wordfall
 
         public void CloseScreen()
         {
+            if (!showingScreen)
+            {
+                return;
+            }
             SceneLoadingTransition.Instance.ShowTransition(Slider.Direction.TopToBottom, statsScreen);
 
             showingScreen = false;

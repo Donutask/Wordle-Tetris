@@ -175,10 +175,35 @@ namespace Donutask.Wordfall
             }
             else
             {
+                if (points > 1)
+                {
+                    StartCoroutine(AnimateScore(score, score + points));
+                }
+                else
+                {
+                    scoreText.text = "Score: " + (score + points);
+                }
                 score += points;
             }
 
+        }
+
+        IEnumerator AnimateScore(int from, int to)
+        {
+            float t = 0;
+            const float duration = 0.5f;
+
+            while (t < duration)
+            {
+                t += Time.deltaTime;
+                scoreText.text = "Score: " + Mathf.Round(from + (InSine(t / duration) * (to - from)));
+                yield return null;
+            }
+
+            //make sure lol
             scoreText.text = "Score: " + score;
         }
+
+        static float InSine(float t) => 1 - (float)Mathf.Cos(t * Mathf.PI / 2);
     }
 }
