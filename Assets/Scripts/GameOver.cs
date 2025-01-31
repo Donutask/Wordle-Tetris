@@ -74,9 +74,10 @@ namespace Donutask.Wordfall
             }
 
             loadingScene = true;
-            SceneManager.LoadScene(0);
+
+            SceneLoadingTransition.Instance.LoadScene("Game", UnityEngine.UI.Slider.Direction.BottomToTop);
+
+            //SceneManager.LoadScene(0);
         }
-
-
     }
 }

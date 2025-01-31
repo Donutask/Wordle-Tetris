@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 using System.Collections;
@@ -70,28 +69,18 @@ namespace Donutask.Wordfall
 
         public void OpenHelp()
         {
-            LoadScene("How to Play");
+            SceneLoadingTransition.Instance.LoadScene("How to Play", UnityEngine.UI.Slider.Direction.LeftToRight);
         }
         public void OpenCredits()
         {
-            LoadScene("Credits");
+            SceneLoadingTransition.Instance.LoadScene("Credits", UnityEngine.UI.Slider.Direction.RightToLeft);
         }
 
-        bool loadingScene;
-        void LoadScene(string scene)
-        {
-            if (loadingScene)
-            {
-                return;
-            }
-            loadingScene = true;
 
-            SceneManager.LoadSceneAsync(scene);
-        }
 
         private void Update()
         {
-            if (loadingScene || started || GameOver.gameOver)
+            if (started || GameOver.gameOver)
             {
                 return;
             }

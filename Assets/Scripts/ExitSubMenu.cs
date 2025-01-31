@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 
 namespace Donutask.Wordfall
@@ -22,7 +21,7 @@ namespace Donutask.Wordfall
                 return;
             }
             exitAction.Disable();
-            SceneManager.LoadSceneAsync("Game");
+            SceneLoadingTransition.Instance.LoadScene("Game", UnityEngine.UI.Slider.Direction.BottomToTop);
             loading = true;
         }
     }
