@@ -172,6 +172,11 @@ namespace Donutask.Wordfall
             return letter == bomb || letter == blank;
         }
 
+        public static bool IsVowel(char letter)
+        {
+            return letter == 'a' || letter == 'e' || letter == 'i' || letter == 'o' || letter == 'u';
+        }
+
         public static bool IsValidWord(string word)
         {
             if (string.IsNullOrWhiteSpace(word))

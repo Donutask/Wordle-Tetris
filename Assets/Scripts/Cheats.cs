@@ -7,7 +7,7 @@ namespace Donutask.Wordfall
     public class Cheats : MonoBehaviour
     {
         public static bool wereCheatsUsed { get; private set; }
-        readonly bool allowCheats = false;
+        readonly bool allowCheats = true;
 
         [SerializeField] TextMeshProUGUI hintText;
         [SerializeField] InputAction hintAction;
@@ -45,7 +45,7 @@ namespace Donutask.Wordfall
             if (spawnAction.WasPerformedThisFrame())
             {
                 wereCheatsUsed = true;
-                LetterSpawner.OverwriteLetter('!');
+                LetterSpawner.OverwriteLetter('?');
             }
         }
     }

@@ -10,6 +10,7 @@ namespace Donutask.Wordfall
     {
         public static int score { get; private set; }
         public static List<string> wordsCreated { get; private set; }
+
         public static int wordCount
         {
             get
