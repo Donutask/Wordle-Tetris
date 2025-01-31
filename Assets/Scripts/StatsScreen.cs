@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
+using System.Collections;
 
 namespace Donutask.Wordfall
 {
@@ -38,13 +39,15 @@ namespace Donutask.Wordfall
             {
                 CreateScreen();
             }
-            statsScreen.SetActive(true);
+
             showingScreen = true;
+            SceneLoadingTransition.Instance.ShowTransition(Slider.Direction.BottomToTop, statsScreen);
         }
 
         public void CloseScreen()
         {
-            statsScreen.SetActive(false);
+            SceneLoadingTransition.Instance.ShowTransition(Slider.Direction.TopToBottom, statsScreen);
+
             showingScreen = false;
         }
 

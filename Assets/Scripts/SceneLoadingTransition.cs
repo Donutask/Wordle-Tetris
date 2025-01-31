@@ -9,7 +9,7 @@ public class SceneLoadingTransition : MonoBehaviour
 {
     public static SceneLoadingTransition Instance { get; private set; }
     [SerializeField] Slider slider;
-    [SerializeField] float transitionDuration;
+    public static readonly float transitionDuration = 0.2f;
     [SerializeField] AudioClip slideIn, slideOut;
     [SerializeField] AudioSource audioSource;
 
@@ -44,7 +44,16 @@ public class SceneLoadingTransition : MonoBehaviour
         StartCoroutine(Transition(op));
     }
 
-    IEnumerator Transition(AsyncOperation asyncOperation)
+    public void ShowTransition(Slider.Direction direction, GameObject screen)
+    {
+        slider.direction = direction;
+        StartCoroutine(Transition(null, screen));
+    }
+
+    /// <summary>
+    /// either load scene or show gameobject
+    /// </summary>
+    IEnumerator Transition(AsyncOperation asyncOperation, GameObject obj = null)
     {
         float currentTime = 0;
         slider.value = 0;
@@ -54,13 +63,20 @@ public class SceneLoadingTransition : MonoBehaviour
         while (currentTime < transitionDuration)
         {
             currentTime += Time.deltaTime;
-            //slider.value = Mathf.Lerp(0, 1, currentTime / transitionDuration);
             slider.value = InSine(currentTime / transitionDuration);
             yield return null;
         }
 
-        asyncOperation.allowSceneActivation = true;
-        yield return new WaitUntil(() => asyncOperation.isDone == true);
+        if (asyncOperation != null)
+        {
+            asyncOperation.allowSceneActivation = true;
+            yield return new WaitUntil(() => asyncOperation.isDone == true);
+        }
+        else if (obj != null)
+        {
+            yield return new WaitForSeconds(transitionDuration);
+            obj.SetActive(!obj.activeSelf);
+        }
 
         currentTime = 0;
         slider.value = 1;
@@ -77,6 +93,6 @@ public class SceneLoadingTransition : MonoBehaviour
         loadingScene = false;
     }
 
-    public static float InSine(float t) => 1 - (float)Mathf.Cos(t * Mathf.PI / 2);
-    public static float OutSine(float t) => (float)Mathf.Sin(t * Mathf.PI / 2);
+    static float InSine(float t) => 1 - (float)Mathf.Cos(t * Mathf.PI / 2);
+    static float OutSine(float t) => (float)Mathf.Sin(t * Mathf.PI / 2);
 }
