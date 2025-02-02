@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 using UnityEngine.Events;
-using KaimiraGames;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
@@ -19,6 +18,8 @@ namespace Donutask.Wordfall
         [SerializeField] float blankChance;
 
         public static UnityEvent spawnTile = new();
+        public static int wordsSpawned { get; private set; }
+        public static List<char> lettersSpawned { get; private set; }
 
         static System.Random rng = new System.Random();
 
@@ -30,6 +31,8 @@ namespace Donutask.Wordfall
         {
             currentWordUnshuffled = null;
             currentLetter = null;
+            wordsSpawned = 0;
+            lettersSpawned = new();
 
             spawnTile = new();
             spawnTile.AddListener(Spawn);
@@ -37,6 +40,7 @@ namespace Donutask.Wordfall
             Grid.ResetGrid();
             ControlsManager.storeEvent.AddListener(Store);
             StartScreen.startGame.AddListener(Spawn);
+
         }
 
         //char nextSpawn;
@@ -50,10 +54,13 @@ namespace Donutask.Wordfall
 
         static Letter currentLetter;
 
-
-
         void Spawn()
         {
+            if (GameOver.gameOver)
+            {
+                return;
+            }
+
             //setup
             if (currentWord == null)
             {
@@ -89,6 +96,7 @@ namespace Donutask.Wordfall
             }
 
 
+            lettersSpawned.Add(chosenLetter);
             UpdateUpcomingIndicators();
 
             //Get next word if needed
@@ -105,14 +113,10 @@ namespace Donutask.Wordfall
 
         void NextWord()
         {
-            //currentWordUnshuffled = ;
-            //currentWord = Shuffle(currentWordUnshuffled);
-            //nextWordUnshuffled = WordManager.RandomWord(difficulty);
-            //nextWord = Shuffle(nextWordUnshuffled);
-            //letterIndex = 0;
+            wordsSpawned++;
 
             //Difficulty calculation. Each difficulty level has less anagrams
-            int maxDifficulty = WordManager.solutionLists.GetLength(0);
+            int maxDifficulty = WordManager.solutionLists.GetLength(0) - 1;
             int difficulty;
             if (WordChecker.wordCount == 0)
             {
@@ -120,9 +124,7 @@ namespace Donutask.Wordfall
             }
             else
             {
-
                 difficulty = Random.Range(0, WordChecker.wordCount);
-                //WordChecker.wordCount + Mathf.RoundToInt(Random.Range(-1.1f, 0.9f));
             }
 
             //Clamp difficulty
@@ -141,6 +143,7 @@ namespace Donutask.Wordfall
                 nextWordUnshuffled = WordManager.RandomWord(difficulty);
                 nextWord = Shuffle(nextWordUnshuffled);
             }
+
             currentWordUnshuffled = nextWordUnshuffled;
             currentWord = nextWord;
             nextWordUnshuffled = WordManager.RandomWord(difficulty);
@@ -215,6 +218,7 @@ namespace Donutask.Wordfall
             storedIndicator.sprite = WordManager.GetLetterSprite(storedLetter);
         }
 
+        //For cheats lol
         public static void OverwriteLetter(char l)
         {
             currentLetter.SetLetter(l);

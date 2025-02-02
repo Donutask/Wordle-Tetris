@@ -7,6 +7,7 @@ namespace Donutask.Wordfall
     public class Cheats : MonoBehaviour
     {
         public static bool wereCheatsUsed { get; private set; }
+        readonly bool allowCheats = true;
 
         [SerializeField] TextMeshProUGUI hintText;
         [SerializeField] InputAction hintAction;
@@ -22,6 +23,10 @@ namespace Donutask.Wordfall
         // Update is called once per frame
         void Update()
         {
+            if (!allowCheats)
+            {
+                return;
+            }
             if (!StartScreen.started || GameOver.gameOver || BlankLetterChooser.choosingLetter || PauseManager.paused)
             {
                 return;

@@ -17,7 +17,7 @@ namespace Donutask.Wordfall
 
         [SerializeField] GameObject normalUI, gameOverUI;
         [SerializeField] ParticleSystem particles;
-        [SerializeField] TextMeshProUGUI scoreText, highScoreText, cheatIndicationText;
+        [SerializeField] TextMeshProUGUI titleText, scoreText, highScoreText, cheatIndicationText;
         public static bool gameOver { get; private set; }
 
         public void EndGame()
@@ -25,6 +25,16 @@ namespace Donutask.Wordfall
             gameOver = true;
             normalUI.SetActive(false);
             gameOverUI.SetActive(true);
+
+            //If you manage to get max score, there's an easter egg
+            if (WordChecker.score >= int.MaxValue)
+            {
+                titleText.text = "You Win!";
+            }
+            else
+            {
+                titleText.text = "Game Over";
+            }
 
             //Calculate and show high score
             int highScore = PlayerPrefs.GetInt("HighScore");
@@ -47,7 +57,7 @@ namespace Donutask.Wordfall
             scoreText.text = "Score: " + WordChecker.score;
 
             //Show if used secret button to show what word its giving you
-            cheatIndicationText.text = Cheats.wereCheatsUsed ? "Hints Used" : "";
+            cheatIndicationText.text = Cheats.wereCheatsUsed ? "Cheats Used" : "";
 
 
             ControlsManager.startEvent.AddListener(PlayAgain);
@@ -64,9 +74,10 @@ namespace Donutask.Wordfall
             }
 
             loadingScene = true;
-            SceneManager.LoadScene(0);
+
+            SceneLoadingTransition.Instance.LoadScene("Game", UnityEngine.UI.Slider.Direction.BottomToTop);
+
+            //SceneManager.LoadScene(0);
         }
-
-
     }
 }

@@ -15,6 +15,8 @@ namespace Donutask.Wordfall
             {
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
+
+                StartScreen.startGame.AddListener(FadeInMusic);
             }
             else
             {
@@ -30,6 +32,12 @@ namespace Donutask.Wordfall
         void m_FadeOutMusic()
         {
             StartCoroutine(StartFade(music, 2.5f, 0));
+        }
+
+
+        void FadeInMusic()
+        {
+            StartCoroutine(StartFade(music, 2.5f, 1));
         }
 
         static IEnumerator StartFade(AudioSource audioSource, float duration, float targetVolume)

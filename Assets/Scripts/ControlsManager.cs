@@ -11,7 +11,6 @@ namespace Donutask.Wordfall
         [SerializeField] InputAction storeAction;
         [SerializeField] InputAction startAction;
         [SerializeField] InputAction pauseAction;
-        [SerializeField] InputAction quitAction;
         [SerializeField] InputAction tempMusicAction;
         [SerializeField] AudioSource music;
 
@@ -34,8 +33,6 @@ namespace Donutask.Wordfall
 
             pauseAction.Enable();
             pauseEvent = new UnityEvent();
-
-            quitAction.Enable();
 
             tempMusicAction.Enable();
             tempMusicAction.performed += TempMusicAction_performed;
@@ -70,11 +67,6 @@ namespace Donutask.Wordfall
             if (pauseAction.WasPerformedThisFrame())
             {
                 pauseEvent.Invoke();
-            }
-
-            if (quitAction.WasPerformedThisFrame())
-            {
-                Application.Quit();
             }
         }
     }

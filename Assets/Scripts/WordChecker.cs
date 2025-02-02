@@ -10,6 +10,7 @@ namespace Donutask.Wordfall
     {
         public static int score { get; private set; }
         public static List<string> wordsCreated { get; private set; }
+
         public static int wordCount
         {
             get
@@ -27,7 +28,7 @@ namespace Donutask.Wordfall
         {
             Instance = this;
             score = 0;
-            UpdateScore();
+            GiveScore(0);
 
             wordsCreated = new List<string>();
 
@@ -52,8 +53,7 @@ namespace Donutask.Wordfall
             //Give score (special letters don't give any score)
             if (allowScore && WordManager.letterValues.TryGetValue(l.letter, out int scoreValue))
             {
-                score += scoreValue;
-                Instance.UpdateScore();
+                Instance.GiveScore(scoreValue);
             }
 
             //Check if words are made when enough letters are down
@@ -63,7 +63,9 @@ namespace Donutask.Wordfall
             }
         }
 
-
+        /// <summary>
+        /// Check every row to see if a word has been made
+        /// </summary>
         void CheckForLines()
         {
             for (int y = 0; y < Grid.height; y++)
@@ -78,6 +80,9 @@ namespace Donutask.Wordfall
 
         }
 
+        /// <param name="y">The row</param>
+        /// <param name="word">The word in this row</param>
+        /// <returns>True if it is a valid 5-letter word</returns>
         bool CheckRow(int y, out string word)
         {
             word = "";
@@ -94,7 +99,6 @@ namespace Donutask.Wordfall
                     return false;
                 }
             }
-
 
             return WordManager.IsValidWord(word);
         }
@@ -123,7 +127,7 @@ namespace Donutask.Wordfall
 
             AudioManager.instance.Play("Line Clear");
 
-            score += scorePerLine; UpdateScore();
+            GiveScore(scorePerLine);
         }
 
         void ClearConfetti(int y, string word)
@@ -135,12 +139,11 @@ namespace Donutask.Wordfall
                 conffettiLetters.SetSprite(i, WordManager.GetLetterSprite(word[i]));
             }
             confetti.Play();
-
         }
+
         /// <summary>
-        /// delete all tiles in column
+        /// Delete all tiles in column
         /// </summary>
-        /// <param name="xPos"></param>
         void ClearColumn(int xPos)
         {
             AudioManager.instance.Play("Bomb");
@@ -163,8 +166,42 @@ namespace Donutask.Wordfall
         /// <summary>
         /// Show score text
         /// </summary>
-        void UpdateScore()
+        void GiveScore(int points)
         {
+            //If you would exceed integer limit with your score
+            if (score + points < 0 && score > 0)
+            {
+                score = int.MaxValue;
+                GameOver.Instance.EndGame();
+            }
+            else
+            {
+                if (points > 1)
+                {
+                    StartCoroutine(AnimateScore(score, score + points));
+                }
+                else
+                {
+                    scoreText.text = "Score: " + (score + points);
+                }
+                score += points;
+            }
+
+        }
+
+        IEnumerator AnimateScore(int from, int to)
+        {
+            float t = 0;
+            const float duration = 0.5f;
+
+            while (t < duration)
+            {
+                t += Time.deltaTime;
+                scoreText.text = "Score: " + Mathf.Round(Easing.EaseIn(from, to, t, duration));
+                yield return null;
+            }
+
+            //make sure lol
             scoreText.text = "Score: " + score;
         }
     }

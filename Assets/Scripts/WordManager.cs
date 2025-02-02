@@ -4,6 +4,10 @@ using UnityEngine;
 using System.IO;
 using System;
 using System.Linq;
+using UnityEngine.Events;
+using UnityEngine.AddressableAssets;
+using System.Threading.Tasks;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 /// <summary>
 /// Loads word lists and provides opt
@@ -66,33 +70,63 @@ namespace Donutask.Wordfall
     };
 
         //For inspector
-        [SerializeField] TextAsset dictionaryFile;
-        [SerializeField] TextAsset[] solutionFiles;
+        [SerializeField] string[] solutionFileKeys;
+        [SerializeField] string remainingWordsKey;
+
         [SerializeField] Sprite[] letterSprites;
+        public static UnityEvent onWordListsLoaded = new();
 
         static WordManager Instance;
 
         private void Awake()
         {
             Instance = this;
-
             usedWords = new List<string>();
+        }
 
+        private async void Start()
+        {
             if (wordList == null)
-                LoadWordLists();
+                await LoadWordLists();
         }
 
         /// <summary>
-        /// Loads files into arrays
+        /// Loads files into arrays. Now async!
         /// </summary>
-        private void LoadWordLists()
+        private async Task LoadWordLists()
         {
-            wordList = dictionaryFile.text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            List<string> wordListList = new List<string>();
 
-            solutionLists = new string[solutionFiles.Length][];
-            for (int i = 0; i < solutionFiles.Length; i++)
+            solutionLists = new string[solutionFileKeys.Length][];
+            for (int i = 0; i < solutionFileKeys.Length; i++)
             {
-                solutionLists[i] = solutionFiles[i].text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                solutionLists[i] = await LoadTextAssetAsync(solutionFileKeys[i]);
+                wordListList.AddRange(solutionLists[i]);
+            }
+
+            string[] missingWords = await LoadTextAssetAsync(remainingWordsKey);
+            wordListList.AddRange(missingWords);
+
+            wordList = wordListList.ToArray();
+
+
+            onWordListsLoaded.Invoke();
+        }
+
+        //Splits the lines too
+        private async Task<string[]> LoadTextAssetAsync(string key)
+        {
+            AsyncOperationHandle<TextAsset> handle = Addressables.LoadAssetAsync<TextAsset>(key);
+            await handle.Task;
+
+            if (handle.Status == AsyncOperationStatus.Succeeded)
+            {
+                return handle.Result.text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None); ;
+            }
+            else
+            {
+                Debug.LogError("Failed to load text asset");
+                return null;
             }
         }
 
@@ -136,6 +170,11 @@ namespace Donutask.Wordfall
         public static bool IsLetterSpecial(char letter)
         {
             return letter == bomb || letter == blank;
+        }
+
+        public static bool IsVowel(char letter)
+        {
+            return letter == 'a' || letter == 'e' || letter == 'i' || letter == 'o' || letter == 'u';
         }
 
         public static bool IsValidWord(string word)

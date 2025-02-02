@@ -44,6 +44,6 @@ namespace Donutask.Wordfall
     {
         Bomb,
         BlankShine,
-        BlankChosen
+        BlankChosen,
     }
 }

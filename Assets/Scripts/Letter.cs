@@ -201,8 +201,17 @@ namespace Donutask.Wordfall
         /// </summary>
         public void Fall()
         {
-            Grid.MoveLetter(this, Vector2Int.down);
+            Grid.MoveLetterInDirection(this, Vector2Int.down);
             transform.position += Vector3.down;
+        }
+
+        /// <summary>
+        /// Does't apply in grid
+        /// </summary>
+        /// <param name="pos"></param>
+        public void MoveTo(Vector2Int pos)
+        {
+            transform.position = new Vector3(pos.x, pos.y);
         }
     }
 }
