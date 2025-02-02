@@ -11,8 +11,7 @@ namespace Donutask.Wordfall
         {
             if (word.Length != 5)
             {
-                Debug.LogError("word must be 5 letters!");
-                AssignWord("error");
+                Debug.LogError("Word must be 5 letters!");
             }
 
             for (int i = 0; i < word.Length; i++)

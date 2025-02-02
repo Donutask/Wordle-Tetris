@@ -63,7 +63,7 @@ public class SceneLoadingTransition : MonoBehaviour
         while (currentTime < transitionDuration)
         {
             currentTime += Time.deltaTime;
-            slider.value = InSine(currentTime / transitionDuration);
+            slider.value = Easing.EaseIn(0, 1, currentTime, transitionDuration);
             yield return null;
         }
 
@@ -86,13 +86,10 @@ public class SceneLoadingTransition : MonoBehaviour
         while (currentTime < transitionDuration)
         {
             currentTime += Time.deltaTime;
-            slider.value = 1 - OutSine(currentTime / transitionDuration);
+            slider.value = Easing.EaseIn(1, 0, currentTime, transitionDuration);
             yield return null;
         }
 
         loadingScene = false;
     }
-
-    static float InSine(float t) => 1 - (float)Mathf.Cos(t * Mathf.PI / 2);
-    static float OutSine(float t) => (float)Mathf.Sin(t * Mathf.PI / 2);
 }

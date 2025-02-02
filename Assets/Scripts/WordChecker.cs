@@ -80,6 +80,9 @@ namespace Donutask.Wordfall
 
         }
 
+        /// <param name="y">The row</param>
+        /// <param name="word">The word in this row</param>
+        /// <returns>True if it is a valid 5-letter word</returns>
         bool CheckRow(int y, out string word)
         {
             word = "";
@@ -96,7 +99,6 @@ namespace Donutask.Wordfall
                     return false;
                 }
             }
-
 
             return WordManager.IsValidWord(word);
         }
@@ -137,12 +139,11 @@ namespace Donutask.Wordfall
                 conffettiLetters.SetSprite(i, WordManager.GetLetterSprite(word[i]));
             }
             confetti.Play();
-
         }
+
         /// <summary>
-        /// delete all tiles in column
+        /// Delete all tiles in column
         /// </summary>
-        /// <param name="xPos"></param>
         void ClearColumn(int xPos)
         {
             AudioManager.instance.Play("Bomb");
@@ -196,14 +197,12 @@ namespace Donutask.Wordfall
             while (t < duration)
             {
                 t += Time.deltaTime;
-                scoreText.text = "Score: " + Mathf.Round(from + (InSine(t / duration) * (to - from)));
+                scoreText.text = "Score: " + Mathf.Round(Easing.EaseIn(from, to, t, duration));
                 yield return null;
             }
 
             //make sure lol
             scoreText.text = "Score: " + score;
         }
-
-        static float InSine(float t) => 1 - (float)Mathf.Cos(t * Mathf.PI / 2);
     }
 }

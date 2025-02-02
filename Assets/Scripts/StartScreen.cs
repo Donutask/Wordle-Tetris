@@ -76,8 +76,6 @@ namespace Donutask.Wordfall
             SceneLoadingTransition.Instance.LoadScene("Credits", UnityEngine.UI.Slider.Direction.RightToLeft);
         }
 
-
-
         private void Update()
         {
             if (started || GameOver.gameOver)

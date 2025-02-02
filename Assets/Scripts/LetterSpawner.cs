@@ -124,9 +124,7 @@ namespace Donutask.Wordfall
             }
             else
             {
-
                 difficulty = Random.Range(0, WordChecker.wordCount);
-                //WordChecker.wordCount + Mathf.RoundToInt(Random.Range(-1.1f, 0.9f));
             }
 
             //Clamp difficulty
@@ -220,6 +218,7 @@ namespace Donutask.Wordfall
             storedIndicator.sprite = WordManager.GetLetterSprite(storedLetter);
         }
 
+        //For cheats lol
         public static void OverwriteLetter(char l)
         {
             currentLetter.SetLetter(l);

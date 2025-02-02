@@ -1,18 +1,18 @@
 using UnityEngine;
 
-/// <summary>
-/// The x and y pos of the transform of each letter corresponds to the i and j index in the 2 dimensional array
-/// </summary>
+
 namespace Donutask.Wordfall
 {
-    public class Grid : MonoBehaviour
+    /// <summary>
+    /// The x and y pos of the transform of each letter corresponds to the i and j index in the 2 dimensional array
+    /// </summary>
+    public static class Grid
     {
         public const int width = 5, height = 7;
 
         public static Letter[,] letters;
         public static int letterCount { get; private set; }
         public static int totalLetterCount { get; private set; }
-
 
         public static void ResetGrid()
         {
